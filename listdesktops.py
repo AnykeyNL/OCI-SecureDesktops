@@ -96,15 +96,12 @@ def input_command_line(help=False):
 
 def ListDesktopPools(region, compartmentID, signer):
     url = "https://api.desktops.{}.oci.oraclecloud.com/20220618/desktopPools?compartmentId={}".format(region, compartmentID)
-    print ("Debug: {}".format(url))
-    print (signer)
     response = requests.get(url, auth=signer)
     data = response.json()
     return data["items"]
 
 def ListDesktops(region, compartmentID, DesktopPoolID, signer):
     url = "https://api.desktops.{}.oci.oraclecloud.com/20220618/desktopPools/{}/desktops?compartmentId={}".format(region, DesktopPoolID, compartmentID)
-    print("Debug: {}".format(url))
     response = requests.get(url, auth=signer)
     data = response.json()
     return data["items"]
