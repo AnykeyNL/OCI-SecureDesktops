@@ -112,6 +112,10 @@ config, signer = create_signer(cmd.config_profile, cmd.is_instance_principals, c
 if cmd.region:
     config["region"] = cmd.region
 
+identity = oci.identity.IdentityClient(config, signer=signer)
+tenancy = identity.get_tenancy(config['tenancy']).data
+print ("Tenancy: {}".format(tenancy.name))
+
 if cmd.compartment:
     desktoppools = ListDesktopPools(config["region"], cmd.compartment, signer)
     for p in desktoppools:
