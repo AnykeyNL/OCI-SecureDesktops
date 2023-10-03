@@ -101,7 +101,7 @@ def ListDesktopPools(region, compartmentID, signer):
     return data["items"]
 
 def ListDesktops(region, compartmentID, DesktopPoolID, signer):
-    url = "https://api.desktops.{}.oci.oraclecloud.com/20220618/desktopPools/{}/desktops?compartmentId={}".format(region, DesktopPoolID, compartmentID)
+    url = "https://api.desktops.{}.oci.oraclecloud.com/20220618/desktopPools/{}/desktops?compartmentId={}&sortBy=timeCreated&sortOrder=ASC".format(region, DesktopPoolID, compartmentID)
     response = requests.get(url, auth=signer)
     data = response.json()
     return data["items"]
@@ -128,10 +128,11 @@ if cmd.compartment:
             network = oci.core.VirtualNetworkClient(config, signer=signer)
             vnic_attachments = compute.list_vnic_attachments(compartment_id=cmd.compartment, instance_id=desktopID).data
             ipinfo = ""
+            instance = compute.get_instance(instance_id=desktopID).data
             for a in vnic_attachments:
                 vnic = network.get_vnic(vnic_id=a.vnic_id).data
                 ipinfo = ipinfo + vnic.private_ip + " "
-            print (" - {} - {} - {} ".format(d["lifecycleState"], ipinfo, d["owner"]))
+            print (" - {} - {} - {} - {} ".format(d["lifecycleState"], ipinfo, instance.display_name, d["owner"]))
 
 else:
     print ("Please specify compartment ID")
