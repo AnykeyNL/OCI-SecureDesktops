@@ -2,6 +2,7 @@ import requests
 import oci
 import sys
 import argparse
+import os
 
 configfile = "~/.oci/config"  # Linux
 configProfile = "DEFAULT"
