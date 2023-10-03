@@ -25,6 +25,7 @@ def create_signer(config_profile, is_instance_principals, is_delegation_token):
     # -----------------------------
     elif is_delegation_token:
 
+        print ("Using delegation token - should only run in cloud shell")
         try:
             # check if env variables OCI_CONFIG_FILE, OCI_CONFIG_PROFILE exist and use them
             env_config_file = os.environ.get('OCI_CONFIG_FILE')
@@ -96,6 +97,7 @@ def input_command_line(help=False):
 def ListDesktopPools(region, compartmentID, signer):
     url = "https://api.desktops.{}.oci.oraclecloud.com/20220618/desktopPools?compartmentId={}".format(region, compartmentID)
     print ("Debug: {}".format(url))
+    print (signer)
     response = requests.get(url, auth=signer)
     data = response.json()
     return data["items"]
